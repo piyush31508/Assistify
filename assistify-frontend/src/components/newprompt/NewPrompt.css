@@ -1,0 +1,15 @@
+.newForm .file-label,
+.newForm .submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: #605e68;
+    border: none;
+    padding: 10px;
+}
+
+.newForm .text-input {
+    height: 40px;
+}
