@@ -2,12 +2,14 @@ import { ChatData } from "../context/ChatContext";
 import { MdDelete } from "react-icons/md";
 import { LoadingSpinner } from "./Loading";
 import toast from "react-hot-toast";
+import { UserData } from "../context/UserContext";
 
-const SideBar = ({ isOpen }) => {
+const SideBar = ({ isOpen, toggleSideBar }) => {
+    const { Logout } = UserData();
     const { chats, createChat, createLod, setSelected, deleteChat } = ChatData();
     const deleteChatHandler = (id) => {
-        // eslint-disable-next-line no-restricted-globals
-        if (confirm("Are you sure you want to delete this chat?")) {
+        const userConfirmed = window.confirm("Are you sure you want to delete this chat?");
+        if (userConfirmed) {
             try {
                 deleteChat(id);
                 toast.success("Chat deleted successfully");
@@ -17,6 +19,7 @@ const SideBar = ({ isOpen }) => {
             }
         }
     };
+
     
     return (
         <div className={`text-white fixed inset-0 bg-gray-800 p-2 transition-transform
@@ -42,7 +45,10 @@ const SideBar = ({ isOpen }) => {
                         chats.map((e) => (
                             <div className="flex" key={e._id}>
                                 <button
-                                    onClick={() => setSelected(e._id)}
+                                    onClick={() => {
+                                        setSelected(e._id)
+                                        toggleSideBar();
+                                    }}
                                     className="w-full text-left py-2 px-2 bg-gray-700 hover:bg-gray-600 rounded mt-2 flex justify-between items-center"
                                 >
                                     <span>{e.latestMessage.slice(0, 35)}...</span>
@@ -67,6 +73,7 @@ const SideBar = ({ isOpen }) => {
             <div className="absolute bottom-0 mb-6 w-full">
                 <button className="px-2 py-2 bg-black hover:bg-gray-500 hover:text-black rounded text-xl
                     mt-2 flex justify-center items-center"
+                    onClick={Logout}
                 >
                     Logout
                 </button>

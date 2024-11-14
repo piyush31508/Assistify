@@ -11,9 +11,7 @@ export const ChatProvider = ({ children }) => {
     const [newRequestLoading, setNewRequestLoading] = useState(false);
 
     async function fetchResponse() {
-        if (prompt === "") {
-            return alert("Write a prompt");
-        }
+       
         console.log("API Key:", process.env.REACT_APP_KEY);
         setNewRequestLoading(true);
         setPrompt("");
@@ -124,6 +122,7 @@ export const ChatProvider = ({ children }) => {
             });
             toast.success(data.message);
             fetchChats();
+            window.location.reload();
         } catch (error) {
             console.log(error);
             alert("Unsuccessful deletion")
@@ -156,7 +155,8 @@ export const ChatProvider = ({ children }) => {
             setSelected,
             loading,
             setLoading,
-            deleteChat
+            deleteChat,
+            fetchChats
             }}>
             {children}
         </ChatContext.Provider>

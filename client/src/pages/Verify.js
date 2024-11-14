@@ -3,17 +3,19 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserData } from '../context/UserContext';
 import { LoadingSpinner } from '../component/Loading';
+import { ChatData } from '../context/ChatContext';
 
 const Verify = () => {
   const [otp, setOtp] = useState("");
 
+  const { fetchChats } = ChatData();
   const { verifyUser, btnLoading } = UserData();
 
   const navigate = useNavigate();
 
   const SubmitHandler = (e) => {
     e.preventDefault();
-    verifyUser(Number(otp), navigate);
+    verifyUser(Number(otp), navigate, fetchChats);
   }
 
   return (

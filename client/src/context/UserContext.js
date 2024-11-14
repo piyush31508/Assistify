@@ -27,7 +27,7 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState([]);
     const [isAuth, setIsAuth] = useState(false);
 
-    async function verifyUser(otp, navigate){
+    async function verifyUser(otp, navigate, fetchChats){
         const verifyToken = localStorage.getItem('verifyToken');
         setBtnLoading(true);
 
@@ -42,7 +42,8 @@ export const UserProvider = ({ children }) => {
             navigate('/');
             setBtnLoading(false);
             setIsAuth(true);
-            setUser(data.user);;
+            setUser(data.user);
+            fetchChats();
         } catch (error) {
             toast.error(error.response.data.message);
             setBtnLoading(false);
@@ -71,13 +72,20 @@ export const UserProvider = ({ children }) => {
         }
     }
     
+    const Logout = (navigate) => {
+        toast.success("Logged Out Successfully");
+        localStorage.removeItem('token');
+        setIsAuth(false);
+        setUser([]);
+        navigate('/login');
+    }
     useEffect(() => {
 
             fetchUser();
         }, []);
     
     return (
-        <UserContext.Provider value={{ loginUser, btnLoading, isAuth, setIsAuth, user, verifyUser, loading }}>
+        <UserContext.Provider value={{ loginUser, btnLoading, isAuth, setIsAuth, user, verifyUser, loading, Logout }}>
             {children}
             <Toaster position="top-right" reverseOrder={false} />
 
